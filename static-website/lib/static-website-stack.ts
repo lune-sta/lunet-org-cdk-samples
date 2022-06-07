@@ -62,7 +62,7 @@ export class StaticWebsiteStack extends Stack {
       }
     )
 
-    const destribution = new cloudfront.Distribution(this, 'Destribution', {
+    const distribution = new cloudfront.Distribution(this, 'Distribution', {
       defaultRootObject: 'index.html',
       defaultBehavior: {
         allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD,
@@ -94,7 +94,7 @@ export class StaticWebsiteStack extends Stack {
         s3Deployment.Source.asset(path.resolve(__dirname, '../web/public')),
       ],
       destinationBucket: bucket,
-      distribution: destribution,
+      distribution: distribution,
       distributionPaths: ['/*'],
     })
 
@@ -106,7 +106,7 @@ export class StaticWebsiteStack extends Stack {
       zone: hostedZone,
       recordName,
       target: route53.RecordTarget.fromAlias(
-        new route53Targets.CloudFrontTarget(destribution)
+        new route53Targets.CloudFrontTarget(distribution)
       ),
     }
 
